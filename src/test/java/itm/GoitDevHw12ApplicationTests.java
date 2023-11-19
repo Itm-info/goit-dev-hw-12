@@ -50,7 +50,7 @@ class GoitDevHw12ApplicationTests {
 		newNote.setContent("newContent");
 		newNote.setId(note.getId());
 		noteService.update(newNote);
-		Assertions.assertEquals(note, newNote);
+		Assertions.assertEquals(newNote, noteService.getById(note.getId()));
 	}
 
 	@Test
@@ -69,7 +69,7 @@ class GoitDevHw12ApplicationTests {
 		noteService.add(note1);
 		noteService.add(note2);
 
-		List list = noteService.listAll();
+		List<Note> list = noteService.listAll();
 		Assertions.assertEquals(2, list.size());
 	}
 

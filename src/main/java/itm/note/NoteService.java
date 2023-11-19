@@ -2,6 +2,7 @@ package itm.note;
 
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,7 +17,7 @@ public class NoteService {
     private final ConcurrentMap<Long, Note> notes = new ConcurrentHashMap<>();
 
     public List<Note> listAll() {
-        final List<Note> res = null;
+        List<Note> res = new ArrayList<>();
         if( ! notes.isEmpty() ) notes.forEach((l,n) -> res.add(n));
         return res;
     }
