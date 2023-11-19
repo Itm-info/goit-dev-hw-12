@@ -1,45 +1,49 @@
 package itm.note;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import static java.util.Objects.isNull;
+
 @Service
-@RequiredArgsConstructor
+//@RequiredArgsConstructor
+//@Data
 public class NoteService {
-    final ConcurrentMap<Long, Note> notes;
+    private final ConcurrentMap<Long, Note> notes = new ConcurrentHashMap<>();
 
     public List<Note> listAll() {
         final List<Note> res = null;
-        notes.forEach((l,n) -> res.add(n));
+        if( ! notes.isEmpty() ) notes.forEach((l,n) -> res.add(n));
         return res;
     }
 
     public Note add(Note note) {
         Random random = new Random();
+        Note prevNote;
         long id;
 
         do {
             id = random.nextLong();
             note.setId(id);
-        }
-        while (! notes.putIfAbsent(id,note).equals(note) );
+            prevNote = notes.putIfAbsent(id, note);
+        } while ( (!isNull(prevNote)) && !prevNote.equals(note) );
 
         return note;
     }
 
-    void deleteById(long id) throws NullPointerException {
+    public void deleteById(long id) throws NullPointerException {
         notes.remove(id);
     }
 
-    void update(Note note) throws NullPointerException {
+    public void update(Note note) throws NullPointerException {
         notes.computeIfPresent( note.getId(), (i,n) -> note );
     }
 
-    Note getById(long id) throws NullPointerException {
+    public Note getById(long id) throws NullPointerException {
         return notes.get(id);
     }
 }
