@@ -1,7 +1,5 @@
 package itm;
 
-import itm.note.Note;
-import itm.note.NoteService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
